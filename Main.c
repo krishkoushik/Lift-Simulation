@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include "Lift.h"
 #include "curses.h"
+#include "Simulate.h"
 int main()
 {
-	int n,t,floor;
-	scanf("%d %d %d",&n,&t,&floor);
+	int t,floor;
+	scanf("%d %d",&t,&floor);
 	int i,j;
 	pqueue * mainq = pqueue_new();
 	pqueue ** qfloor = (pqueue **)malloc((floor+1)*sizeof(pqueue *));
@@ -28,11 +29,13 @@ int main()
 	//clear();
 	//refresh();
 	//pqueue_pop_ele(qfloor[2],mainq,qfloor[2]->head->next);
+	Simulate(qfloor,mainq,floor);
 	for(i=0;i<=floor;++i)
 	{
 		printf("%d'th floor : \n",i);
 		pqueue_print(qfloor[i]);
 	}
 	mpqueue_print(mainq);
+	printf("\nAverage Waiting Time : %f\n",CalculateMeanTime(mainq));
 	return 1;
 }

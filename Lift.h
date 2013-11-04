@@ -4,6 +4,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#define FLOOR_TIME 2
+
 //delaration of person info data struct
 typedef struct person_info
 {

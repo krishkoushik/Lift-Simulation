@@ -1,7 +1,8 @@
 #ifndef SIMULATE_H
 #define SIMULATE_H
 
-#define MAX_CAPACITY 10
+#define MAX_CAPACITY 3 
+#define WAIT_TIME 1
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -22,10 +23,12 @@ void State_delete(State * st);
 
 void GoTo(int begin, int end, State * st, pqueue ** qf, int floor);
 
-void Pickup(pqueue * fl, State * st);
+void Pickup(int floor, State * st, pqueue ** qf);
 
 void Drop(int begin, int end, State * st, pqueue ** qf, int floor);
 
 void Simulate(pqueue ** qf, pqueue * mq, int num_floors);
+
+float CalculateMeanTime(pqueue * mq);
 
 #endif

@@ -148,7 +148,7 @@ void pqueue_print( pqueue* q )
 	person* temp = q->head;
 	while(temp!=NULL)
 	{
-		printf("time : %d\t",temp->time_arrival);
+		printf("time : %d  pick : %d  lift : %d\t",temp->time_arrival,temp->time,temp->lift);
 		printf("arri : %d\t",temp->floor_arrival);
 		printf("dest : %d\n",temp->floor_dest);
 		temp=temp->next;
@@ -162,7 +162,7 @@ void mpqueue_print( pqueue* q )
 	person* temp = q->head;
 	while(temp!=NULL)
 	{
-		printf("time : %d\t",temp->time_arrival);
+		printf("time : %d  pick : %d  lift : %d\t",temp->time_arrival,temp->time,temp->lift);
 		printf("arri : %d\t",temp->floor_arrival);
 		printf("dest : %d\n",temp->floor_dest);
 		temp=temp->mainnext;
