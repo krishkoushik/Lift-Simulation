@@ -13,4 +13,4 @@ Simulate.o : Simulate.c Simulate.h Lift.h
 	gcc -c Simulate.c -o Simulate.o
 
 clean : 
-	rm -f Main.o Lift.o
+	rm -f Main.o Lift.o Simulate.o lift_simulator

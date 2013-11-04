@@ -4,7 +4,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define FLOOR_TIME 2
 
 //delaration of person info data struct
 typedef struct person_info
@@ -33,8 +32,6 @@ person * person_new(int time_arrival, int floor_arrival,
 pqueue * pqueue_new();
 
 int pqueue_push(pqueue * q, pqueue * mq, person * p);
-
-person * person_get(pqueue * q);
 
 int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p);
 

@@ -42,7 +42,7 @@ void GoTo(int begin, int end, State * st, pqueue ** qf, int floor)
 					int ch1 = direction*(p->floor_dest-end);
 					int ch2 = direction*(p->floor_dest-i);
 					if(st->num_people<MAX_CAPACITY && ch1<=0 && ch2>0
-							&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
+						&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
 					{
 						st->num_people++;
 						p->lift = st->lift_no;
@@ -81,7 +81,7 @@ void GoTo(int begin, int end, State * st, pqueue ** qf, int floor)
 					int ch1 = direction*(p->floor_dest-end);
 					int ch2 = direction*(p->floor_dest-i);
 					if(st->num_people<MAX_CAPACITY && ch1<=0 && ch2>0
-							&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
+						&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
 					{
 						st->num_people++;
 						p->lift = st->lift_no;
@@ -114,12 +114,13 @@ void Pickup(int floor, State * st, pqueue ** qf)
 	int dir=0;
 	for(p=fl->head;p!=NULL;p=p->next)
 	{
-		if(st->time<p->time_arrival)
-			st->time = p->time_arrival;
 		if(st->num_people<MAX_CAPACITY && p->lift==-1 && p->time==-1)
 		{
 			if(dir==0)
 			{
+				if(st->time<p->time_arrival)
+					st->time = p->time_arrival;
+
 				if(p->floor_dest>floor)
 					dir=1;
 				else
@@ -166,7 +167,7 @@ void Drop(int begin, int end, State * st, pqueue ** qf, int floor)
 					int ch1 = direction*(p->floor_dest-end);
 					int ch2 = direction*(p->floor_dest-i);
 					if(st->num_people<MAX_CAPACITY && ch2>0
-							&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
+						&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
 					{
 						st->num_people++;
 						p->lift = st->lift_no;
@@ -201,7 +202,7 @@ void Drop(int begin, int end, State * st, pqueue ** qf, int floor)
 					int ch1 = direction*(p->floor_dest-end);
 					int ch2 = direction*(p->floor_dest-i);
 					if(st->num_people<MAX_CAPACITY && ch2>0
-							&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
+						&& p->lift==-1 && p->time==-1 && p->time_arrival <= st->time)
 					{
 						st->num_people++;
 						p->lift = st->lift_no;
@@ -221,6 +222,7 @@ void Drop(int begin, int end, State * st, pqueue ** qf, int floor)
 	st->num_people=0;
 }
 
+//Function to simulate the twin lifts
 void Simulate(pqueue ** qf, pqueue * mq, int num_floors)
 {
 	State * lift1 = State_new(0, num_floors, 0, 1, 1);

@@ -1,8 +1,9 @@
 #ifndef SIMULATE_H
 #define SIMULATE_H
 
-#define MAX_CAPACITY 3 
+#define MAX_CAPACITY 8 
 #define WAIT_TIME 1
+#define FLOOR_TIME 2
 
 #include<stdio.h>
 #include<stdlib.h>

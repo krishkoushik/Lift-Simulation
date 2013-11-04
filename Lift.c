@@ -70,18 +70,6 @@ int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 }
 
 
-//function to obtain values of the person at the start of the queue
-person* person_get(pqueue* q) 
-{
-	person* temp;
-	temp->time_arrival=q->head->time_arrival;
-	temp->floor_arrival=q->head->floor_arrival;
-	temp->floor_dest=q->head->floor_dest;
-	temp->next=q->head->next;
-	return temp;
-}
-
-
 //function to pop out the first person in the pqueue
 int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p )
 {
