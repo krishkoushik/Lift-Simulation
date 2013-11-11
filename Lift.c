@@ -1,17 +1,9 @@
-#include "Lift.h"
+/*
+ * Lift.c : To define the basic queue and person operations
+ * Last Modified : Sun, 10 Nov 2013 14:07:29
+ */
 
-pqueue * pqueue_update(pqueue * pq, int t)
-{
-	if(pq==NULL || pq->head==NULL)
-		return pq;
-	person * p = pq->head;
-	while(p!=NULL && p->time_arrival==t)
-	{
-		p->time_arrival++;
-		p = p->next;
-	}
-	return pq;
-}
+#include "Lift.h"
 
 //function for creating a new persons info
 person* person_new(int time_arrival,int floor_arrival,
@@ -42,6 +34,7 @@ pqueue* pqueue_new()
 //Add a new element at the start of the pqueue
 int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 {
+	//Checking in q
 	if(q->head==NULL && q->tail==NULL)
 	{
 		q->head=per;
@@ -53,7 +46,8 @@ int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 		temp=q->tail;
 		temp->next=per;
 		q->tail=temp->next;
-	}	
+	}
+	//Checking in mq	
 	if(mq->head==NULL && mq->tail==NULL)
 	{
 		mq->head=per;
@@ -71,10 +65,12 @@ int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 
 
 //function to pop out the first person in the pqueue
+//This function pops a person from both mq and q
 int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p )
 {
 	if(p==NULL)
 		return 0;
+	//For popping from q
 	if(q->head==NULL)
 	{
 		return 0;
@@ -100,6 +96,7 @@ int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p )
 			}
 		}
 	}
+	//For popping from mq
 	if(mq->head==NULL)
 	{
 		return 0;	

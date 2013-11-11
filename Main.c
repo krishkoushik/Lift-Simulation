@@ -13,7 +13,7 @@ int main()
 	{
 		qfloor[i] = pqueue_new();
 	}
-	for(i=0;i<t;++i)
+	for(i=1;i<=t;++i)
 	{
 		int num_of_persons;
 		scanf("%d",&num_of_persons);
