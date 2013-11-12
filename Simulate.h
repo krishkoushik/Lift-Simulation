@@ -9,6 +9,16 @@
 #include<stdlib.h>
 #include "Lift.h"
 
+
+//declaration of a state data structure.
+//VARIABLE EXPLANATION:-
+//	lift_no:
+//	time:
+//	floor:
+//	direction:
+//	dst:
+//	num_people:
+// place_time[10000]:
 typedef struct State_{
 	int lift_no;
 	int time;

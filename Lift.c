@@ -5,7 +5,13 @@
 
 #include "Lift.h"
 
-//function for creating a new persons info
+//function for creating a new persons info.using a data struct called person.
+//VARIABLE EXPLANATION:-
+//	time_arrival:at what time he comes
+//	floor_arrival:at what floor he comes
+//	floor_dest:at what floor he wants to go
+//	next:
+//	mainn:
 person* person_new(int time_arrival,int floor_arrival,
 		int floor_dest,person * next, person * mainn)
 {
@@ -21,7 +27,7 @@ person* person_new(int time_arrival,int floor_arrival,
 }
 
 
-//creating a priority queue
+//creating a priority queue.This is the basic creation function for the priority queue, with two pointers,one for the head and one for the tail.
 pqueue* pqueue_new()
 {	
 	pqueue* first=(pqueue*)malloc(sizeof(pqueue));
@@ -31,7 +37,11 @@ pqueue* pqueue_new()
 }
 
 
-//Add a new element at the start of the pqueue
+//Add a new element at the start of the pqueue.ie, push the information of the person next in line.
+//VARIABLE EXPLANATION:-
+//	q:
+//	mq:
+//	per:
 int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 {
 	//Checking in q
@@ -64,8 +74,12 @@ int pqueue_push(pqueue * q, pqueue * mq,  person * per)
 }
 
 
-//function to pop out the first person in the pqueue
-//This function pops a person from both mq and q
+//function to pop out the first person in the pqueue.This function pops a person from both mq and q.
+//we have mq aas the main queue and the q as the queue for each floor.
+//VARIABLE EXPLANATION:-
+//	q:
+//	mq:
+//	p:
 int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p )
 {
 	if(p==NULL)
@@ -127,7 +141,9 @@ int pqueue_pop_ele(pqueue * q, pqueue * mq, person * p )
 }
 
 
-//function for printing out the pqueue
+//function for printing out the pqueue.this function prints out the entire queue in its order
+//VARIABLE EXPLANATION:-
+//	q:
 void pqueue_print( pqueue* q )
 {
 	person* temp = q->head;
@@ -141,7 +157,9 @@ void pqueue_print( pqueue* q )
 	printf("\n");
 }
 
-//function for printing out the main pqueue
+//function for printing out the main pqueue.this function prints out the entire main queue in its order.
+//VARIABLE EXPLANATION:-
+//	q:
 void mpqueue_print( pqueue* q )
 {
 	person* temp = q->head;

@@ -1,14 +1,24 @@
 #include "Simulate.h"
 
-//Function to find the floors the lift will be at for all times
+//Function to find the floors the lift will be at for all times.
+//VARIABLE EXPLANATION:-
+//	arr: floors array
+//	size: size of the array.
 void findfloors(float * arr, int size)
 {
 	int i;
 	int prev,aft;
+	int end;
+	for(i=0;i<=size;++i)
+		if(arr[i]!=-1)
+			arr[i]*=FLOOR_TIME;
 	for(i=0;i<size;++i)
 	{
 		if(arr[i]!=-1)
+		{
 			prev=arr[i];
+			end=arr[i];
+		}
 		else
 		{
 			int j=i;
@@ -17,17 +27,32 @@ void findfloors(float * arr, int size)
 			int temp=j;
 			j=i;
 			i=temp-1;
+			int m=1;
 			while(arr[j]==-1 && j<size)
 			{
-				arr[j]=(prev+aft)*(1.0)/2;
+				if(prev>aft)
+					arr[j]=prev-m;
+				else if(prev==aft)
+					arr[j]=prev;
+				else
+					arr[j]=prev+m;
 				j++;
+				m++;
 			}
 		}
 	}
+	for(;i<10000;++i)
+		arr[i]=end;
 	return ;
 }
 
-//Function to create a new State (Lift's state)
+//Function to create a new State (Lift's state).
+//VARIABLE EXPLANATION:-
+//	curr_floor: current floor
+//	num_floors: total number of floors
+//	time: current time which you want to store in state.
+//	dir: direction of lift.
+//	lift_num: number of the lift.
 State * State_new(int curr_floor, int num_floors, int time, int dir, int lift_num)
 {
 	State * st = (State *)malloc(sizeof(State));
@@ -57,12 +82,13 @@ void State_delete(State * st)
 
 
 //Function to make the lift to go to a patrticular floor
-// @param begin starting floor of the lift
-// @param end destination of the lift
-// @param st state of the lift which needs to go to the floor
-// @param qf array of queues (one for each floor)
-// @param total floor number of floors
-// @param reserved amount of lift space to be reserved when reaching end
+//VARIABLE EXPLANATION:-
+//	begin: starting floor of the lift
+//	end: destination of the lift
+//	st: state of the lift which needs to go to the floor
+//	qf: array of queues (one for each floor)
+//	floor: number of floors
+//	reserved: amount of lift space to be reserved when reaching end
 void GoTo(int begin, int end, State * st, pqueue ** qf, int floor, int reserved)
 {
 	if(begin==end)
@@ -163,6 +189,12 @@ void GoTo(int begin, int end, State * st, pqueue ** qf, int floor, int reserved)
 		}
 }
 
+
+//function for picking up people at their floors.
+//VARIABLE EXPLANATION:-
+//	floor: floor at which the lift picks people up
+//	st: lift state
+//	qf: array of floor queues.
 void Pickup(int floor, State * st, pqueue ** qf)
 {
 	person * p;
@@ -205,6 +237,14 @@ void Pickup(int floor, State * st, pqueue ** qf)
 	st->place_time[st->time]=st->floor;
 }
 
+
+//function for dropping people at their floors.
+//VARIABLE EXPLANATION:-
+//	begin: floor at which lift starts.
+//	end: floor at which lift ends.
+//	st: state of the system.
+//	qf: queue to be passed.
+//	floor: floor at which the lift drops.
 void Drop(int begin, int end, State * st, pqueue ** qf, int floor)
 {
 	int direction = end>begin?1:-1;
@@ -289,6 +329,10 @@ void Drop(int begin, int end, State * st, pqueue ** qf, int floor)
 	st->num_people=0;
 }
 
+
+//function to calculate num of persons in the queue.
+//VARIABLE EXPLANATION:-
+//	pq: queue to be passed for each floor.
 int CalculateNumPersons(pqueue * pq)
 {
 	person * p;
@@ -317,7 +361,11 @@ int CalculateNumPersons(pqueue * pq)
 			
 
 
-//Function to simulate the twin lifts
+//Function to simulate the twin lifts.
+//VARIABLE EXPLANATION:-
+//	qf: array of array of queues
+//	mq: main queue which contains people int their order of ariival.
+//	num_floors: total number of floors.
 void Simulate(pqueue ** qf, pqueue * mq, int num_floors)
 {
 	State * lift1 = State_new(0, num_floors, 0, 1, 1);
@@ -353,47 +401,8 @@ void Simulate(pqueue ** qf, pqueue * mq, int num_floors)
 		}
 			
 
-		
-
-		/*if(lift1->time==lift2->time)
-		{
-			int a1 = lift1->floor-p->floor_arrival;
-			int a2 = lift2->floor-p->floor_arrival;
-			if(a1*a1<=a2*a2)
-			{
-				if((p->floor_dest-p->floor_arrival)*(p->floor_arrival - lift1->floor)<0)
-				   reserved*=-1;	
-				GoTo(lift1->floor, p->floor_arrival, lift1, qf, num_floors, reserved);
-				Pickup(p->floor_arrival, lift1, qf); 
-				Drop(lift1->floor, p->floor_dest, lift1, qf, num_floors);
-			}
-			else
-			{
-				if((p->floor_dest-p->floor_arrival)*(p->floor_arrival - lift2->floor)<0)
-				   reserved*=-1;
-				GoTo(lift2->floor, p->floor_arrival, lift2, qf, num_floors, reserved);
-				Pickup(p->floor_arrival, lift2, qf); 
-				Drop(lift2->floor, p->floor_dest, lift2, qf, num_floors);
-			}
-		}
-		else if(lift1->time<lift2->time)
-		{
-			if((p->floor_dest-p->floor_arrival)*(p->floor_arrival - lift1->floor)<0)
-			   reserved*=-1;
-			GoTo(lift1->floor, p->floor_arrival, lift1, qf, num_floors, reserved);
-			Pickup(p->floor_arrival, lift1, qf); 
-			Drop(lift1->floor, p->floor_dest, lift1, qf, num_floors);
-		}
-		else
-		{
-			if((p->floor_dest-p->floor_arrival)*(p->floor_arrival - lift2->floor)<0)
-			   reserved*=-1;
-			GoTo(lift2->floor, p->floor_arrival, lift2, qf, num_floors, reserved);
-			Pickup(p->floor_arrival, lift2, qf); 
-			Drop(lift2->floor, p->floor_dest, lift2, qf, num_floors);
-		}*/
-	printf("Lift 1: %d  %d\n",lift1->time,lift1->floor);
-	printf("Lift 2: %d  %d\n",lift2->time,lift2->floor);
+		printf("Lift 1: %d  %d\n",lift1->time,lift1->floor);
+		printf("Lift 2: %d  %d\n",lift2->time,lift2->floor);
 	
 	}
 	lift1->num_people-=lift1->dst[lift1->floor];
@@ -402,25 +411,30 @@ void Simulate(pqueue ** qf, pqueue * mq, int num_floors)
 		printf("\nSuccessfuly simulated!!\n\n");
 	int j;
 
-	//////////////////////////////////////////////////
-	lift1->place_time[lift1->time+1] = lift1->floor;//
-	lift2->place_time[lift2->time+1] = lift2->floor;//
-	findfloors(lift1->place_time,lift1->time+1);    //
-	findfloors(lift2->place_time,lift2->time+1);    //
-													//
-	printf("\nLift1 : \n");                         //
-	for(j=0;j<=lift1->time;++j)                     //
-	{                                               //
-		printf("%d  %.1f\n",j,lift1->place_time[j]);//	
-	}                                               //
-	printf("\nLift2 : \n");                         //
-	for(j=0;j<=lift2->time;++j)                     //
-	{                                               //
-		printf("%d  %.1f\n",j,lift2->place_time[j]);//	
-	}                                               //
-	//////////////////////////////////////////////////
+	
+	lift1->place_time[lift1->time+1] = lift1->floor;
+	lift2->place_time[lift2->time+1] = lift2->floor;
+	findfloors(lift1->place_time,lift1->time+1);    
+	findfloors(lift2->place_time,lift2->time+1);    
+													
+	/*printf("\nLift1 : \n");                         
+	for(j=0;j<=lift1->time;++j)                     
+	{                                               
+		printf("%d  %.1f\n",j,lift1->place_time[j]);	
+	}                                               
+	printf("\nLift2 : \n");                         
+	for(j=0;j<=lift2->time;++j)                     
+	{                                               
+		printf("%d  %.1f\n",j,lift2->place_time[j]);	
+	}*/                                              
+	
+	state_print(qf, num_floors, lift1, lift2, lift1->time>lift2->time?lift1->time:lift2->time);
 }
 
+
+//function to calculate mean time.
+//VARIABLE EXPLANATION:-
+//	mq: main queue to be passed.
 float CalculateMeanTime(pqueue * mq)
 {
 	long long int sum=0;

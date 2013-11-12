@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include "Lift.h"
-#include "curses.h"
+#include "PrintLift.h"
 #include "Simulate.h"
 int main()
 {
@@ -25,16 +25,7 @@ int main()
 			pqueue_push(qfloor[arr],mainq,p);
 		}
 	}
-	//printf("\e[1;1H\e[2J");
-	//clear();
-	//refresh();
-	//pqueue_pop_ele(qfloor[2],mainq,qfloor[2]->head->next);
 	Simulate(qfloor,mainq,floor);
-	for(i=0;i<=floor;++i)
-	{
-		printf("%d'th floor : \n",i);
-		pqueue_print(qfloor[i]);
-	}
 	mpqueue_print(mainq);
 	printf("\nAverage Waiting Time : %f\n",CalculateMeanTime(mainq));
 	return 1;
